@@ -7,7 +7,6 @@ const User = require("../../models/User");
 
 router.post("/register", (req, res) => {
   User.findOne({ email: req.body.email }).then(user => {
-    console.log("USER:", user);
     if (user) {
       return res
         .status(400)
@@ -22,8 +21,6 @@ router.post("/register", (req, res) => {
         headline: req.body.headline
       });
 
-      console.log(newUser.password);
-
       bcrypt.hash(newUser.password, saltRounds, (err, hash) => {
         if (err) throw err;
         newUser.password = hash;
@@ -33,6 +30,23 @@ router.post("/register", (req, res) => {
           .catch(error => console.log(error));
       });
     }
+  });
+});
+
+router.post("/login", (req, res) => {
+  const email = req.body.email;
+  const password = req.body.password;
+
+  User.findOne({ email }).then(user => {
+    if (!user) return res.status(404).json({ email: "Email not found" });
+
+    bcrypt.compare(password, user.password).then(isMatch => {
+      if (isMatch) {
+        res.json({ msg: "Success" });
+      } else {
+        return res.status(400).json({ password: "Incorrect password" });
+      }
+    });
   });
 });
 
