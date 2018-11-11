@@ -1,0 +1,30 @@
+{
+  "name": "brainthread",
+  "version": "1.0.0",
+  "description": "Share your threads",
+  "main": "app.js",
+  "scripts": {
+    "start": "node app.js",
+    "server": "nodemon app.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.18.3",
+    "express": "^4.16.4",
+    "jsonwebtoken": "^8.3.0",
+    "mongoose": "^5.3.11",
+    "passport": "^0.4.0",
+    "passport-jwt": "^4.0.0",
+    "validator": "^10.9.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/youngmanalive/brainthread.git"
+  },
+  "devDependencies": {
+    "nodemon": "^1.18.6"
+  }
+}
