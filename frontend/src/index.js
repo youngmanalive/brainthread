@@ -1,13 +1,12 @@
-import React from 'react';
-import ReactDOM from 'react-dom';
+import React from "react";
+import ReactDOM from "react-dom";
 
-import './css/styles.scss';
+import jwt_decode from "jwt-decode";
+import configureStore from "./js/store/store";
 
-import App from './app';
+import "./css/styles.scss";
+import App from "./app";
 
 document.addEventListener("DOMContentLoaded", () => {
-  ReactDOM.render(<App />, document.getElementById('root'));
-})
-
-
-
+  ReactDOM.render(<App />, document.getElementById("root"));
+});
