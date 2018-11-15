@@ -21,7 +21,7 @@ export const setCurrentUser = decoded => ({
 
 // REGISTER USER
 export const registerUser = userData => dispatch => {
-  axios.post("/api/users/register")
+  axios.post("/api/users/register", userData)
     .then(res => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
@@ -39,7 +39,7 @@ export const registerUser = userData => dispatch => {
 
 // LOGIN USER
 export const loginUser = userData => dispatch => {
-  axios.post("/api/users/login")
+  axios.post("/api/users/login", userData)
     .then(res => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
