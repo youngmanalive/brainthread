@@ -11,6 +11,8 @@ const User = require("../../models/User");
 const validateRegisterInput = require("../../validation/register");
 const validateLoginInput = require("../../validation/login");
 
+
+// REGISTER
 router.post("/register", (req, res) => {
   const { errors, isValid } = validateRegisterInput(req.body);
   if (!isValid) return res.status(400).json(errors);
@@ -35,9 +37,9 @@ router.post("/register", (req, res) => {
         newUser.password = hash;
         newUser.save()
           .then(user => {
-            const payload = { id: user.id, user: user.username };
+            const payload = { id: user.id, username: user.username, email: user.email };
             jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
-                res.json({success: true, token: "Bearer " + token});
+              res.json({success: true, token: "Bearer " + token});
             });
           })
           .catch(error => console.log(error));
@@ -46,6 +48,7 @@ router.post("/register", (req, res) => {
   });
 });
 
+// LOGIN
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
   if (!isValid) return res.status(400).json(errors);
@@ -58,7 +61,7 @@ router.post("/login", (req, res) => {
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, user: user.username };
+        const payload = { id: user.id, username: user.username, email: user.email };
         jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
           res.json({success: true, token: "Bearer " + token});
         });
@@ -69,6 +72,7 @@ router.post("/login", (req, res) => {
   });
 });
 
+// GET CURRENT USER
 router.get("/current",
   passport.authenticate("jwt", { session: false }), (req, res) => {
     res.json({ id: req.user.id, user: req.user.username, email: req.user.email });
