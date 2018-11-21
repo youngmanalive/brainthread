@@ -1,2 +1,11 @@
 @import './app.css';
 @import './index.css';
+
+form * {
+  display: block;
+  margin: 5px;
+}
+
+form h1 {
+  margin-top: 20px;
+}

@@ -1,16 +1,20 @@
-import { RECEIVE_CURRENT_USER } from "../util/user_api_util";
+import { SET_CURRENT_USER, CHECK_USERNAME } from "../util/user_api_util";
 
-const _nullUser = Object.freeze({ id: null });
+const _nullUser = Object.freeze({ id: null, username: null, email: null });
 
 const sessionReducer = (state = _nullUser, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_CURRENT_USER:
+    case SET_CURRENT_USER:
       return {
-        id: action.payload.id,
-        username: action.payload.username,
-        email: action.payload.email
+        id: action.payload.id || null,
+        username: action.payload.username || null,
+        email: action.payload.email || null
       };
+    case CHECK_USERNAME:
+      return Object.assign(
+        {}, state, { username: action.payload.validUsername }
+        );
     default:
       return state;
   }
