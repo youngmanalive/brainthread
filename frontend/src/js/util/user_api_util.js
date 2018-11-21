@@ -2,7 +2,8 @@ import axios from "axios";
 import jwt_decode from "jwt-decode";
 
 export const RECEIVE_USER_ERRORS = "RECEIVE_USER_ERRORS";
-export const RECEIVE_CURRENT_USER = "RECEIVE_CURRENT_USER";
+export const SET_CURRENT_USER = "SET_CURRENT_USER";
+export const CHECK_USERNAME = "CHECK_USERNAME";
 
 // SET AUTHORIZATION TOKEN
 export const setAuthToken = token => {
@@ -15,7 +16,7 @@ export const setAuthToken = token => {
 
 // SET CURRENT USER
 export const setCurrentUser = decoded => ({
-  type: RECEIVE_CURRENT_USER,
+  type: SET_CURRENT_USER,
   payload: decoded
 });
 
@@ -60,4 +61,15 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("jwtToken");
   setAuthToken();
   dispatch(setCurrentUser({}));
+}
+
+// CHECK USERNAME
+export const checkUsername = username => dispatch => {
+  axios.get("/api/users/username", { params: { username } })
+    .then(res => {
+      dispatch({
+        type: CHECK_USERNAME,
+        payload: res.data
+      });
+    });
 }

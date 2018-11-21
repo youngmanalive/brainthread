@@ -75,8 +75,19 @@ router.post("/login", (req, res) => {
 // GET CURRENT USER
 router.get("/current",
   passport.authenticate("jwt", { session: false }), (req, res) => {
-    res.json({ id: req.user.id, user: req.user.username, email: req.user.email });
+    res.json({
+      id: req.user.id,
+      user: req.user.username,
+      email: req.user.email
+    });
   }
 );
+
+// CHECK FOR EXISTING USERNAME
+router.get("/username", (req, res) => { 
+  User.findOne({ username: req.query.username }).then(user => {
+    res.json({ validUsername: !user });
+  });
+});
 
 module.exports = router;
