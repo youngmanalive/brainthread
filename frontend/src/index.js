@@ -5,7 +5,9 @@ import jwt_decode from "jwt-decode";
 import configureStore from "./js/store/store";
 import * as APIUtil from "./js/util/user_api_util";
 
+import "font-awesome/css/font-awesome.min.css";
 import "./css/styles.scss";
+
 import App from "./app";
 
 document.addEventListener("DOMContentLoaded", () => {
