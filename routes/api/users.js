@@ -84,9 +84,15 @@ router.get("/current",
 );
 
 // CHECK FOR EXISTING USERNAME
-router.get("/username", (req, res) => { 
-  User.findOne({ username: req.query.username }).then(user => {
-    res.json({ validUsername: !user });
+router.get("/username", (req, res) => {
+  const { username } = req.query;
+  User.findOne({ username }).then(user => {
+    if (!user) {
+      // username available
+      res.json({ username });
+    } else {
+      res.json({ username: null });
+    }
   });
 });
 

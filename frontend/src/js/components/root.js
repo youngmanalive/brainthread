@@ -1,29 +1,24 @@
 import React from "react";
-import { Route, Switch, Link } from "react-router-dom";
+import { Route, Switch, Redirect } from "react-router-dom";
+import { ProtectedRoute } from "../util/route_util";
 
-import { AuthRoute, ProtectedRoute } from "../util/route_util";
 import LoginForm from "./session/login_form_container";
 import RegisterForm from "./session/register_form_container";
 import Home from "./home/home_container";
+import Test from "./home/test";
+import NavBar from "./navbar/navbar_container";
 
 const Root = () => (
   <>
-    <h1>BrainThread</h1>
-    <Switch>
-      <Route exact path="/" render={() => (
-        <>
-          <Link to="/login">Login</Link>
-          <Link to="/register">Register</Link>
-        </>
-      )} />
-      <Route path="/login" render={() => <Link to="/">Back</Link>} />
-      <Route path="/register" render={() => <Link to="/">Back</Link>} />
-    </Switch>
+    <Route path="/" component={NavBar} />
 
     <Switch>
-      <AuthRoute path="/login" component={LoginForm} />
-      <AuthRoute path="/register" component={RegisterForm} />
+      <Route path="/login" component={LoginForm} />
+      <Route path="/register" component={RegisterForm} />
       <ProtectedRoute exact path="/home" component={Home} />
+      <ProtectedRoute exact path="/test" component={Test} />
+      <Route exact path="/" render={() => <h3>Welcome!</h3>} />
+      <Redirect to="/" />
     </Switch>
   </>
 );

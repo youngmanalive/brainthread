@@ -1,4 +1,5 @@
 import React from "react";
+import { Link, Redirect } from "react-router-dom";
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -7,14 +8,15 @@ class RegisterForm extends React.Component {
       user: {
         firstName: "",
         lastName: "",
-        username: "",
+        username: this.props.validUsername || "",
         email: "",
         password: "",
         password2: "",
       },
       checkingName: false,
       validInput: true,
-      next: false
+      next: false,
+      loading: false
     }
 
     this.typingTimeout = null;
@@ -25,6 +27,14 @@ class RegisterForm extends React.Component {
   componentDidMount() {
     if (Object.keys(this.props.errors).length) this.props.clearErrors();
   }
+
+  componentDidUpdate() {
+    console.log(this.state.loading);
+    if (this.state.loading && Object.keys(this.props.errors).length) {
+      this.setState({ loading: false });
+    }
+  }
+
 
   registerUsername() {
     const buttonDisabled = (this.state.checkingName) || !(
@@ -37,12 +47,12 @@ class RegisterForm extends React.Component {
 
     return (
       <>
+        <Link to="/">Back</Link>
         <h2>Create your username</h2>
         <input
           style={style}
           type="text"
           onChange={this.handleUpdate('username')}
-          onKeyUp={this.handleUsername}
           value={this.state.user.username} 
           placeholder="Username" />
         <h4 style={style}>{this.usernameStatus()}</h4>
@@ -57,64 +67,10 @@ class RegisterForm extends React.Component {
     )
   }
 
-  usernameStatus() {
-    if (this.state.checkingName) {
-      return <i className="fa fa-spinner fa-pulse" />;
-    } else if (this.state.user.username.length < 4) {
-      return null;
-    } else if (!this.state.validInput) {
-      return <i className="fa fa-times" style={{color: "red"}}> Invalid characters</i>;
-    } else if (!this.props.validUsername) {
-      return <i className="fa fa-times" style={{color: "red"}} />
-    } else {
-      return <i className="fa fa-check" style={{color: "green"}} />;
-    }
-  }
-
-  handleUpdate(field) {
-    if (field === "username") {
-      return e => this.setState({
-        user: {
-          ...this.state.user,
-          [field]: e.currentTarget.value.toLowerCase()
-        },
-        checkingName: e.currentTarget.value.length > 3,
-        validInput: true
-      })
-    } else {
-      return e => this.setState({ user: {
-        ...this.state.user,
-        [field]: e.currentTarget.value
-      }});
-    }
-  }
-
-  handleUsername() {
-    if (this.typingTimeout) clearTimeout(this.typingTimeout);
-
-    if (this.state.user.username.length && !/^[a-z0-9_]+$/.test(this.state.user.username)) {
-      return this.setState({ validInput: false, checkingName: false });
-    }
-
-    if (this.state.checkingName) {
-      this.typingTimeout = setTimeout(() => {
-        new Promise(() => this.props.checkUsername(this.state.user.username))
-          .then(setTimeout(() => (
-            this.setState({ checkingName: false, validInput: true })
-          ), 300));
-      }, 700);
-    }
-  }
-
-  handleSubmit(e) {
-    e.preventDefault();
-    const user = Object.assign({}, this.state.user);
-    this.props.register(user);
-  }
-
   registerUserInfo() {
     return (
       <>
+        <Link to="/">Back</Link>
         <h2>Almost done</h2>
         <h4>{this.state.user.username}</h4>
         <form onSubmit={this.handleSubmit}>
@@ -148,13 +104,72 @@ class RegisterForm extends React.Component {
             value="Register" />
         </form>
         <button onClick={() => this.setState({ next: false })}>
-          Go back
+          Go back to username
         </button>
       </>
     )
   }
 
+  usernameStatus() {
+    if (this.state.checkingName) {
+      return <i className="fa fa-spinner fa-pulse" />;
+    } else if (!this.state.validInput) {
+      return <span style={{color: "red"}}><i className="fa fa-times" /> invalid characters</span>;
+    } else if (this.state.user.username.length < 4) {
+      return null;
+    } else if (!this.props.validUsername) {
+      return <span style={{color: "red"}}><i className="fa fa-times" /> not available</span>;
+    } else {
+      return <i className="fa fa-check" style={{color: "green"}} />;
+    }
+  }
+
+  handleUpdate(field) {
+    if (field === "username") {
+      return e => {
+        if (this.typingTimeout) clearTimeout(this.typingTimeout);
+
+        const value = e.currentTarget.value;
+        const validInput = /^[a-z0-9_]*$/.test(value);
+        const checkingName = (validInput && value.length > 3);
+
+        this.setState({
+          user: { ...this.state.user, [field]: value.toLowerCase() },
+          checkingName,
+          validInput
+        }, this.handleUsername.bind(this))
+      }
+    } else {
+      return e => this.setState({ 
+        user: { ...this.state.user, [field]: e.currentTarget.value }
+      });
+    }
+  }
+
+  handleUsername() {
+    if (this.state.checkingName && this.state.validInput) {
+      this.typingTimeout = setTimeout(() => {
+        new Promise(() => this.props.checkUsername(this.state.user.username))
+          .then(setTimeout(() => (
+            this.setState({
+              checkingName: false,
+              validInput: /^[a-z0-9_]*$/.test(this.state.user.username)
+            })
+          ), 300));
+      }, 700);
+    }
+  }
+
+  handleSubmit(e) {
+    e.preventDefault();
+    const user = Object.assign({}, this.state.user);
+    this.setState({ loading: true }, () => this.props.register(user));
+  }
+
   render() {
+    if (this.props.loggedIn) return <Redirect to="/home" />;
+    if (this.state.loading) return <h1>Loading...</h1>;
+
     const form = this.state.next
       ? (this.registerUserInfo())
       : (this.registerUsername());

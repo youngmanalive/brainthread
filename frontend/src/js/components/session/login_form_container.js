@@ -5,6 +5,7 @@ import { loginUser } from "../../util/user_api_util";
 import { clearErrors } from "../../actions/error_actions";
 
 const mapStateToProps = state => ({
+  loggedIn: Boolean(state.session.id),
   errors: state.errors.session
 });
 

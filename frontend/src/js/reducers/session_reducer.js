@@ -13,7 +13,7 @@ const sessionReducer = (state = _nullUser, action) => {
       };
     case CHECK_USERNAME:
       return Object.assign(
-        {}, state, { username: action.payload.validUsername }
+        {}, state, { username: action.payload.username }
         );
     default:
       return state;

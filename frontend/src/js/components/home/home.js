@@ -1,10 +1,15 @@
 import React from "react";
+// import { Redirect } from "react-router-dom";
 
-const Home = ({ logout }) => (
-  <>
-    <h1>Hello you!</h1>
-    <h2 onClick={() => logout()}>Logout</h2>
-  </>
-);
+class Home extends React.Component {
+
+  render() {
+    return (
+      <>
+        <h1>Hello you!</h1>
+      </>
+    )
+  }
+}
 
 export default Home;
