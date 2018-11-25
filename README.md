@@ -1,18 +1,23 @@
 ## BrainThread
 
-Initial stages. This is a MERN app I'm building from the ground up.
+Initial stages. Stay tuned.
 
-Stay tuned.
+MERN stack, single page app.
 
-Technologies:
+## Technologies, etc:
+
 - Node
 - MongoDB (hosted on mLab)
 - Mongoose
 - Express
 - React
 - Redux
-- Webpack
-- Babel
 - Axios
 - Passport
 - Bcrypt
+- Sass
+- Webpack
+- Babel
+- FontAwesome
+
+Frontend bootstrapped with `create-react-app`.
