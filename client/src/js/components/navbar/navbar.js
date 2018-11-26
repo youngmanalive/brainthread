@@ -1,5 +1,5 @@
 import React from "react";
-import { Link } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 class NavBar extends React.Component {
   constructor(props) {
@@ -24,8 +24,8 @@ class NavBar extends React.Component {
     ) : (
       <>
         <h1>BrainThread</h1>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
+        <NavLink to="/login">Login</NavLink>
+        <NavLink to="/register">Register</NavLink>
       </>
     );
   }
