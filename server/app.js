@@ -5,7 +5,6 @@ const db = require("./config/keys").mongoURI;
 const bodyParser = require("body-parser");
 const passport = require("passport");
 const path = require("path");
-const favicon = require("serve-favicon");
 
 // Port
 const port = process.env.PORT || 5000;
@@ -25,8 +24,6 @@ require("./config/passport")(passport);
 mongoose.connect(db, { useNewUrlParser: true })
   .then(() => console.log("Connected to MongoDB successfully"))
   .catch(err => console.log(err));
-
-
 
 app.use("/api/users", users);
 

@@ -72,13 +72,12 @@ router.post("/login", (req, res) => {
   });
 });
 
-// GET CURRENT USER
+// GET CURRENT USER - Auth testing route
 router.get("/current",
   passport.authenticate("jwt", { session: false }), (req, res) => {
     res.json({
       id: req.user.id,
       user: req.user.username,
-      email: req.user.email
     });
   }
 );
