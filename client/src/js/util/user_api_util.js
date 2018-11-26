@@ -7,11 +7,7 @@ export const CHECK_USERNAME = "CHECK_USERNAME";
 
 // SET AUTHORIZATION TOKEN
 export const setAuthToken = token => {
-  if (token) {
-    axios.defaults.headers.common["Authorization"] = token;
-  } else {
-    delete axios.defaults.headers.common["Authorization"];
-  }
+  axios.defaults.headers.common.Authorization = token ? token : null;
 };
 
 // SET CURRENT USER
@@ -61,7 +57,25 @@ export const logoutUser = () => dispatch => {
   localStorage.removeItem("jwtToken");
   setAuthToken();
   dispatch(setCurrentUser({}));
-}
+};
+
+// HANDLE SESSION ON PAGE LOAD OR REFRESH
+export const setSession = () => {
+  const decoded = jwt_decode(localStorage.jwtToken);
+  const expired = decoded.exp < (Date.now() / 1000);
+  
+  if (expired) localStorage.removeItem("jwtToken");
+  
+  setAuthToken(expired ? null : localStorage.jwtToken);
+  return setCurrentUser(expired ? {} : decoded);
+};
+
+// GET CURRENT USER - jwt route
+export const getCurrentUser = () => dispatch => {
+  axios.get("/api/users/current")
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err));
+};
 
 // CHECK USERNAME
 export const checkUsername = username => dispatch => {
@@ -72,4 +86,4 @@ export const checkUsername = username => dispatch => {
         payload: res.data
       });
     });
-}
+};
