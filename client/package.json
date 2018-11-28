@@ -6,6 +6,7 @@
   "main": "index.js",
   "proxy": "http://localhost:5000",
   "dependencies": {
+    "animate.css": "^3.7.0",
     "axios": "^0.18.0",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",

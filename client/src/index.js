@@ -5,7 +5,8 @@ import configureStore from "./js/store/store";
 import { setSession } from "./js/util/user_api_util";
 
 import "font-awesome/css/font-awesome.min.css";
-import "./css/styles.scss";
+import "animate.css/animate.min.css";
+import "./css/index.scss";
 
 import App from "./app";
 
