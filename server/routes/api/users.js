@@ -85,14 +85,20 @@ router.get("/current",
 // CHECK FOR EXISTING USERNAME
 router.get("/username", (req, res) => {
   const { username } = req.query;
-  User.findOne({ username }).then(user => {
-    if (!user) {
-      // username available
-      res.json({ username });
-    } else {
-      res.json({ username: null });
-    }
-  });
+
+  if (keys.reserved.includes(username)) {
+    res.json({ username: null });
+  } else {
+    User.findOne({ username }).then(user => {
+      if (!user) {
+        // username available, send back to client
+        res.json({ username });
+      } else {
+        // username unavailable
+        res.json({ username: null });
+      }
+    });
+  }
 });
 
 module.exports = router;
