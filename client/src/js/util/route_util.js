@@ -10,15 +10,19 @@ const Auth = ({ component: Component, path, loggedIn, exact }) => (
 
 const Protected = ({ component: Component, path, loggedIn, exact }) => (
   <Route path={path} exact={exact} render={(props) => (
-    loggedIn ? <Component {...props} /> : <Redirect to={handleRedirect(path)} />
+    loggedIn ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to={handleRedirect(props.location.pathname)} />
+    )
   )} />
 );
 
-const handleRedirect = path => ({
+const handleRedirect = nextPath => ({
   pathname: "/login",
   state: {
     message: "You must be logged in to do that.",
-    nextPath: path
+    nextPath
   }
 });
 
