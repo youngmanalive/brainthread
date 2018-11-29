@@ -34,7 +34,6 @@ class RegisterForm extends React.Component {
     }
   }
 
-
   registerUsername() {
     const buttonDisabled = (this.state.checkingName) || !(
       this.props.validUsername &&
@@ -42,19 +41,19 @@ class RegisterForm extends React.Component {
       this.state.user.username.length > 3
     );
 
-    const style = {display: "inline", marginRight: "15px"};
-
     return (
       <>
         <Link to="/">Back</Link>
         <h2>Create your username</h2>
-        <input
-          style={style}
-          type="text"
-          onChange={this.handleUpdate('username')}
-          value={this.state.user.username} 
-          placeholder="Username" />
-        <h4 style={style}>{this.usernameStatus()}</h4>
+        <div className="name-check">
+          <input
+            type="text"
+            className="signup-input-username"
+            onChange={this.handleUpdate('username')}
+            value={this.state.user.username} 
+            placeholder="Username" />
+          <span className="signup-username-check">{this.usernameStatus()}</span>
+        </div>
         <br/>
         <br/>
         <button 
@@ -63,13 +62,12 @@ class RegisterForm extends React.Component {
           Next
         </button>
       </>
-    )
+    );
   }
 
   registerUserInfo() {
     return (
       <>
-        <Link to="/">Back</Link>
         <h2>Almost done</h2>
         <h4>{this.state.user.username}</h4>
         <form onSubmit={this.handleSubmit}>
@@ -106,7 +104,7 @@ class RegisterForm extends React.Component {
           Go back to username
         </button>
       </>
-    )
+    );
   }
 
   usernameStatus() {
@@ -174,10 +172,10 @@ class RegisterForm extends React.Component {
       : (this.registerUsername());
   
     return (
-      <>
-        <h1>Sign Up!</h1>
+      <div className="signup-container">
+        <h1 className="mainpage-header">Sign Up!</h1>
         {form}
-      </>
+      </div>
     );
   }
 }

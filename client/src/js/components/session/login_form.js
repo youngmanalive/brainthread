@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import Loading from "../loading";
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -17,7 +18,7 @@ class LoginForm extends React.Component {
     if (Object.keys(this.props.errors).length) this.props.clearErrors();
   }
 
-  componentDidUpdate() {
+  componentDidUpdate() { 
     if (this.state.loading && Object.keys(this.props.errors).length) {
       this.setState({ loading: false });
     }
@@ -31,7 +32,14 @@ class LoginForm extends React.Component {
     e.preventDefault();
     const { email, password } = this.state;
     const user = Object.assign({}, { email, password });
-    this.setState({ loading: true }, () => this.props.login(user));
+
+    new Promise(resolve => resolve(this.props.clearErrors()))
+      .then(() => (
+        this.setState({ loading: true }, () => (
+         setTimeout(() => this.props.login(user), 1000)
+        ))
+      )
+    );
   }
 
   isRedirected() {
@@ -47,10 +55,9 @@ class LoginForm extends React.Component {
       return <Redirect to={nextPath} />;
     }
 
-    if (this.state.loading) return <h1>Loading...</h1>;
-
     return (
       <form onSubmit={this.handleSubmit}>
+        {this.state.loading ? <Loading /> : null}
         <h1>Login</h1>
         <Link to="/">Back</Link>
         {this.isRedirected()}

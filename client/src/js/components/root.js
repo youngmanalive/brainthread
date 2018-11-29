@@ -13,14 +13,16 @@ const Root = () => (
   <>
     <Route path="/" component={NavBar} />
 
-    <Switch>
-      <Route path="/login" component={LoginForm} />
-      <Route path="/register" component={RegisterForm} />
-      <ProtectedRoute exact path="/home" component={Home} />
-      <ProtectedRoute exact path="/:test" component={Test} />
-      <Route exact path="/" component={Main} />
-      <Redirect to="/" />
-    </Switch>
+    <section className="main-content-container">
+      <Switch>
+        <Route path="/login" component={LoginForm} />
+        <Route path="/register" component={RegisterForm} />
+        <ProtectedRoute exact path="/home" component={Home} />
+        <ProtectedRoute exact path="/:test" component={Test} />
+        <Route exact path="/" component={Main} />
+        <Redirect to="/" />
+      </Switch>
+    </section>
   </>
 );
 
