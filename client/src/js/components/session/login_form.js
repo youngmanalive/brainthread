@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import Loading from "../loading";
+import styles from "../../../css/login.module.scss";
 
 class LoginForm extends React.Component {
   constructor(props) {
@@ -44,7 +45,7 @@ class LoginForm extends React.Component {
 
   isRedirected() {
     const { state } = this.props.location;
-    return state ? <h2>{state.message}</h2> : null;
+    return state ? <h3>{state.message}</h3> : null;
   }
 
   render() {
@@ -55,26 +56,43 @@ class LoginForm extends React.Component {
       return <Redirect to={nextPath} />;
     }
 
+    const Redirected = () => {
+      const { state } = this.props.location;
+      return !state ? null :
+        <h3 className={styles.redirected}>{state.message}</h3>;
+    }
+
     return (
-      <form onSubmit={this.handleSubmit}>
+      <>
         {this.state.loading ? <Loading /> : null}
-        <h1>Login</h1>
-        <Link to="/">Back</Link>
-        {this.isRedirected()}
-        <input 
-          type="text" 
-          onChange={this.update("email")} 
-          value={this.state.email}
-          placeholder="Email" />
-        <input 
-          type="text" 
-          onChange={this.update("password")} 
-          value={this.state.password}
-          placeholder="Password" />
-        <input
-          type="submit"
-          value="Submit" />
-      </form>
+        <div className={styles.container}>
+          <form onSubmit={this.handleSubmit}>
+            <Link to="/" className={styles.backButton}>&#8592; Back</Link>
+            <h1 className={styles.header}>Login</h1>
+            <Redirected />
+            <input 
+              type="text" 
+              className={styles.field}
+              onChange={this.update("email")} 
+              value={this.state.email}
+              placeholder="Email" />
+            <input
+              type="password" 
+              className={styles.field}
+              onChange={this.update("password")} 
+              value={this.state.password}
+              placeholder="Password" />
+            <input
+              type="submit"
+              className={styles.submitButton}
+              value="Submit" />
+          </form>
+          <span className={styles.footer}>
+            Don't have an account? &nbsp;
+            <Link to="/register" className={styles.loginLink}>Sign up</Link>
+          </span>
+        </div>
+      </>
     )
   }
 }

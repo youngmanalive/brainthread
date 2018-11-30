@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import styles from "../../../css/register.module.scss";
 
 class RegisterForm extends React.Component {
   constructor(props) {
@@ -43,66 +44,81 @@ class RegisterForm extends React.Component {
 
     return (
       <>
-        <Link to="/">Back</Link>
-        <h2>Create your username</h2>
-        <div className="name-check">
-          <input
-            type="text"
-            className="signup-input-username"
-            onChange={this.handleUpdate('username')}
-            value={this.state.user.username} 
-            placeholder="Username" />
-          <span className="signup-username-check">{this.usernameStatus()}</span>
-        </div>
-        <br/>
-        <br/>
-        <button 
+        <h2 className={styles.usernameHeader}>Create your username</h2>
+        <input
+          type="text"
+          className={styles.field}
+          onChange={this.handleUpdate('username')}
+          value={this.state.user.username}
+          spellCheck="false"
+          placeholder="Username" />
+        <span className={styles.usernameStatus}>{this.usernameStatus()}</span>
+        <button
+          className={styles.nextButton}
           onClick={() => this.setState({ next: true })}
           disabled={buttonDisabled}>
           Next
         </button>
+        <span className={styles.footer}>
+          Already have an account? &nbsp;
+          <Link to="/login" className={styles.login}>Log in</Link>
+        </span>
       </>
     );
   }
 
   registerUserInfo() {
+    const submitDisabled = !(
+      Object.values(this.state.user)
+        .filter((value, i) => i !== 2)
+        .every(value => value)
+    );
+
+    console.log(submitDisabled);
+
     return (
       <>
-        <h2>Almost done</h2>
-        <h4>{this.state.user.username}</h4>
+        <h2>Almost done.</h2>
+        <h2 className={styles.usernameHeader}>
+          Your username: <span className={styles.username}>{this.state.user.username}</span>
+        </h2>
         <form onSubmit={this.handleSubmit}>
           <input
-            type="text" 
+            type="text" required
+            className={styles.field}
             onChange={this.handleUpdate("firstName")} 
             value={this.state.user.firstName}
             placeholder="First Name" />
           <input
-            type="text" 
+            type="text" required
+            className={styles.field}
             onChange={this.handleUpdate("lastName")} 
             value={this.state.user.lastName}
             placeholder="Last Name" />
           <input
-            type="email" 
+            type="email" required
+            className={styles.field}
             onChange={this.handleUpdate("email")} 
             value={this.state.user.email}
             placeholder="Email" />
           <input
-            type="text" 
+            type="password" required
+            className={styles.field}
             onChange={this.handleUpdate("password")} 
             value={this.state.user.password}
             placeholder="Password" />
           <input
-            type="text" 
+            type="password" required
+            className={styles.field}
             onChange={this.handleUpdate("password2")} 
             value={this.state.user.password2}
             placeholder="Confirm Password" />
           <input
-            type="submit"
-            value="Register" />
+            type="submit" required
+            className={styles.submitButton}
+            value="Register"
+            disabled={submitDisabled} />
         </form>
-        <button onClick={() => this.setState({ next: false })}>
-          Go back to username
-        </button>
       </>
     );
   }
@@ -170,10 +186,18 @@ class RegisterForm extends React.Component {
     const form = this.state.next
       ? (this.registerUserInfo())
       : (this.registerUsername());
+
+    const BackButton = () => this.state.next 
+      ? <span className={styles.goBack}
+          onClick={() => this.setState({ next: false })}>
+          &#8592; Back
+        </span>
+      : <Link to="/" className={styles.goBack}>&#8592; Back</Link>;
   
     return (
-      <div className="signup-container">
-        <h1 className="mainpage-header">Sign Up!</h1>
+      <div className={styles.container}>
+        <BackButton />
+        <h1 className={styles.header}>Sign Up</h1>
         {form}
       </div>
     );

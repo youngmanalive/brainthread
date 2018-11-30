@@ -1,4 +1,5 @@
 import React from "react";
+import { NavLink } from "react-router-dom";
 import { MemberNav, VisitorNav, Menu } from "./nav_components";
 
 class NavBar extends React.Component {
@@ -36,7 +37,7 @@ class NavBar extends React.Component {
       <nav>
         {sideMenu}
         <div className="nav-main-container">
-          <h1 className="nav-logo">BrainThread</h1>
+          <NavLink exact to="/" className="nav-logo">BrainThread</NavLink>
           {navUI}
         </div>
       </nav>

@@ -2,6 +2,7 @@ import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import { connect } from "react-redux";
 import { getCurrentUser } from "../../util/user_api_util";
+import styles from "../../../css/test.module.scss";
 
 class Test extends React.Component {
   constructor(props) {
@@ -33,16 +34,18 @@ class Test extends React.Component {
     if (this.state.loading) return <h1>Loading...</h1>;
 
     return (
-      <>
-        <h1>Testing 123, {this.props.username}!</h1>
+      <div className={styles.container}>
+        <h1 className={styles.header}>
+          Testing 123, {this.props.username}!
+        </h1>
         <p>
           Clicking <button 
                       onClick={() => this.props.getCurrentUser()}
                       >HERE</button> will
           make an authorized get request.
         </p>
-        <Link to="/home">Home</Link>
-      </>
+        <Link to="/home" className={styles.homeLink}>&#8592; Home</Link>
+      </div>
     )
   }
 }
