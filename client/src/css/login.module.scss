@@ -1,0 +1,48 @@
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.backButton {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  font-size: .9rem;
+}
+
+.header {
+  font-size: 2rem;
+  margin: 2rem 0;
+}
+
+
+.redirected {
+  margin: 2rem;
+}
+
+.field {
+  display: block;
+  margin: 1rem auto;
+  padding: .8rem;
+  width: 20rem;
+}
+
+input[type=submit].submitButton {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+  border: 0;
+  padding: .4rem 1.8rem;
+  color: #ffffff;
+  background: #91cdff;
+
+  &:hover {
+    background: #afdbff
+  }
+}
+
+.footer {
+  display: block;
+  width: auto;
+  margin: 2rem auto;
+}

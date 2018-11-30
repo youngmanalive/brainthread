@@ -1,0 +1,27 @@
+.container {
+  text-align: center;
+}
+
+.header {
+  font-size: 2rem;
+  margin: 2rem 0;
+}
+
+.about {
+  margin: 3rem 0 2rem 0;
+  font-size: 1.2rem;
+}
+
+.testLink {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+  border: 0;
+  padding: .4rem 1.8rem;
+  color: #ffffff;
+  background: #91cdff;
+
+  &:hover {
+    background: #afdbff
+  }
+}

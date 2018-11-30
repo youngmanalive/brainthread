@@ -1,0 +1,70 @@
+.container {
+  text-align: center;
+  position: relative;
+}
+
+.header {
+  font-size: 2rem;
+  margin: 2rem 0;
+}
+
+.field {
+  display: block;
+  margin: 1rem auto;
+  padding: .8rem;
+  width: 20rem;
+}
+
+// Username
+
+.goBack {
+  position: absolute;
+  left: 10px;
+  top: -10px;
+  font-size: .9rem;
+  cursor: pointer;
+}
+
+.usernameHeader {
+  padding: 1rem 0 .3rem 0;
+}
+
+.usernameStatus {
+  display: block;
+  height: 1rem;
+  margin: 1rem;
+}
+
+button.nextButton,
+input[type=submit].submitButton {
+  margin: 1rem 0;
+  font-size: 1.2rem;
+  border-radius: 2rem;
+  border: 0;
+  padding: .4rem 1.8rem;
+  color: #ffffff;
+  background: #91cdff;
+
+  &:hover {
+    background: #afdbff
+  }
+}
+
+.passwordField {
+  letter-spacing: 1rem;
+}
+
+.username {
+  font-size: 1.3rem;
+}
+
+button.nextButton:disabled,
+input[type=submit].submitButton:disabled {
+  background: #e0e0e0;
+}
+
+.footer {
+  display: block;
+  width: auto;
+  margin: 2rem auto;
+}
