@@ -21,7 +21,7 @@ const Protected = ({ component: Component, path, loggedIn, exact }) => (
 const handleRedirect = nextPath => ({
   pathname: "/login",
   state: {
-    message: "You must be logged in to do that.",
+    message: "* You must be logged in to do that. Please sign in.",
     nextPath
   }
 });
