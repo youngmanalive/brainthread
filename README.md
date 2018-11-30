@@ -21,3 +21,15 @@ MERN stack, single page app.
 - FontAwesome
 
 Frontend bootstrapped with `create-react-app`.
+
+
+
+---
+## Functionality, etc.
+
+### Registering username
+
+Waits for visitor to stop typing, then queries db for existing username.
+Also checks for valid input at any on change event.
+
+![image](docs/register_username.gif)
