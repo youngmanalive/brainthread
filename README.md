@@ -75,7 +75,7 @@ class RegisterForm extends React.Component {
       this.typingTimeout = setTimeout(() => {
 
         // checkUsername will dispatch the result to the store,
-        // then mapped to state as "validUsername"
+        // then mapped to props as "validUsername"
         this.props.checkUsername(this.state.user.username)
           .then(() => this.setState({ checkingName: false }));
           // update state to remove loading spinner and reflect results
