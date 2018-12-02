@@ -1,63 +1,62 @@
 import axios from "axios";
 import jwt_decode from "jwt-decode";
 
-export const RECEIVE_USER_ERRORS = "RECEIVE_USER_ERRORS";
-export const SET_CURRENT_USER = "SET_CURRENT_USER";
-export const CHECK_USERNAME = "CHECK_USERNAME";
-
 // SET AUTHORIZATION TOKEN
-export const setAuthToken = token => {
+const setAuthToken = token => {
   axios.defaults.headers.common.Authorization = token ? token : null;
 };
 
-// SET CURRENT USER
-export const setCurrentUser = decoded => ({
-  type: SET_CURRENT_USER,
-  payload: decoded
-});
 
 // REGISTER USER
-export const registerUser = userData => dispatch => {
-  axios.post("/api/users/register", userData)
+export const createUser = user =>
+  axios.post("/api/users/register", user)
     .then(res => {
       const { token } = res.data;
       localStorage.setItem("jwtToken", token);
       setAuthToken(token);
       const decoded = jwt_decode(token);
-      dispatch(setCurrentUser(decoded));
+      return decoded
     })
-    .catch(err =>
-      dispatch({
-        type: RECEIVE_USER_ERRORS,
-        payload: err.response.data
-      })
-    );
-};
+    .catch(err => {
+      throw err.response.data 
+    });
+
 
 // LOGIN USER
-export const loginUser = userData => dispatch => {
-  axios.post("/api/users/login", userData)
-    .then(res => {
-      const { token } = res.data;
-      localStorage.setItem("jwtToken", token);
-      setAuthToken(token);
-      const decoded = jwt_decode(token);
-      dispatch(setCurrentUser(decoded));
-    })
-    .catch(err =>
-      dispatch({
-        type: RECEIVE_USER_ERRORS,
-        payload: err.response.data
+export const createSession = credentials =>
+    axios.post("/api/users/login", credentials)
+      .then(res => {
+        const { token } = res.data;
+        localStorage.setItem("jwtToken", token);
+        setAuthToken(token);
+        const decoded = jwt_decode(token);
+        return decoded;
       })
-    );
-};
+      .catch( err => {
+        throw err.response.data;
+      });
+
 
 // LOGOUT USER
-export const logoutUser = () => dispatch => {
+export const destroySession = () => new Promise(resolve => {
   localStorage.removeItem("jwtToken");
   setAuthToken();
-  dispatch(setCurrentUser({}));
-};
+  resolve();
+})
+
+
+// GET CURRENT USER - jwt testing route
+export const getCurrentUser = () =>
+  axios.get("/api/users/current")
+    .then(res => console.log(res.data))
+    .catch(err => console.log(err));
+
+
+// CHECK USERNAME
+export const getUsername = name =>
+  axios.get(`/api/users/username?username=${name}`)
+    .then(res => res.data);
+
 
 // HANDLE SESSION ON PAGE LOAD OR REFRESH
 export const setSession = () => {
@@ -67,23 +66,5 @@ export const setSession = () => {
   if (expired) localStorage.removeItem("jwtToken");
   
   setAuthToken(expired ? null : localStorage.jwtToken);
-  return setCurrentUser(expired ? {} : decoded);
-};
-
-// GET CURRENT USER - jwt route
-export const getCurrentUser = () => dispatch => {
-  axios.get("/api/users/current")
-    .then(res => console.log(res.data))
-    .catch(err => console.log(err));
-};
-
-// CHECK USERNAME
-export const checkUsername = username => dispatch => {
-  axios.get("/api/users/username", { params: { username } })
-    .then(res => {
-      dispatch({
-        type: CHECK_USERNAME,
-        payload: res.data
-      });
-    });
-};
+  return Promise.resolve(expired ? {} : decoded);
+}
