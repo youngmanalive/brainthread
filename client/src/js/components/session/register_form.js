@@ -21,7 +21,6 @@ class RegisterForm extends React.Component {
     }
 
     this.typingTimeout = null;
-    this.handleUsername = this.handleUsername.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
@@ -148,7 +147,7 @@ class RegisterForm extends React.Component {
           user: { ...this.state.user, [field]: value },
           checkingName,
           validInput
-        }, this.handleUsername.bind(this))
+        }, this.handleUsername)
       }
     } else {
       return e => this.setState({ 
@@ -161,10 +160,7 @@ class RegisterForm extends React.Component {
     if (this.state.checkingName && this.state.validInput) {
       this.typingTimeout = setTimeout(() => {
         this.props.checkUsername(this.state.user.username)
-          .then(() => this.setState({
-            checkingName: false,
-            validInput: /^[a-z0-9_]*$/.test(this.state.user.username)
-          }));
+          .then(() => this.setState({ checkingName: false }));
       }, 500);
     }
   }
