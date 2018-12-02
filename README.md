@@ -75,23 +75,24 @@ class LoginForm extends Component {
     const Redirected = () => {
       const { state } = this.props.location;
       return !state ? null :
-        <h3 className={styles.redirected}>{state.message}</h3>;
+        <h3>{state.message}</h3>;
     }
 
     return (
-        <form onSubmit={this.handleSubmit}>
-          <Link to="/" >Back</Link>
-          <h1>Login</h1>
-          <Redirected />
-          <input 
-            type="text" 
-            onChange={this.update("email")} 
-            value={this.state.email}
-            placeholder="Email" />
+      <form onSubmit={this.handleSubmit}>
+        <h1>Login</h1>
 
-            // ...
-            
-        </form>
+        <Redirected />
+        
+        <input 
+          type="text" 
+          onChange={this.update("email")} 
+          value={this.state.email}
+          placeholder="Email" />
+
+        // ...
+          
+      </form>
     )
             
   }
