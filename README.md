@@ -18,14 +18,86 @@ MERN stack, single page app.
 - Sass
 - Webpack
 - Babel
-- FontAwesome
 
 Frontend bootstrapped with `create-react-app`.
 
 
 
 ---
+
 ## Functionality, etc.
+
+### Protected Routes and Redirection
+
+![image](docs/redirection.png)
+
+If a non-member or logged-out user is trying to access a protected route, we'll `<Redirect />` to the login page, and send the attempted path and a message along with it. 
+
+```jsx
+// route_util.js
+
+const Protected = ({ component: Component, path, loggedIn, exact }) => (
+  <Route path={path} exact={exact} render={(props) => (
+    loggedIn ? (
+      <Component {...props} />
+    ) : (
+      <Redirect to={handleRedirect(props.location.pathname)} />
+    )
+  )} />
+);
+
+const handleRedirect = nextPath => ({
+  pathname: "/login",
+  state: {
+    message: "* You must be logged in to do that. Please sign in.",
+    nextPath
+  }
+});
+```
+
+Inside rendering the login form, check `this.props.location.state` for a redirect object. If state was recieved, render the message. Once the user logs in, redirect to the original path.
+
+```jsx
+// login_form.js
+
+class LoginForm extends Component {
+
+  // ...
+
+  render() {
+    const { loggedIn, location: { state } } = this.props;
+
+    if (loggedIn) {
+      const nextPath = !state ? "/home" : state.nextPath;
+      return <Redirect to={nextPath} />;
+    }
+
+    const Redirected = () => {
+      const { state } = this.props.location;
+      return !state ? null :
+        <h3 className={styles.redirected}>{state.message}</h3>;
+    }
+
+    return (
+        <form onSubmit={this.handleSubmit}>
+          <Link to="/" >Back</Link>
+          <h1>Login</h1>
+          <Redirected />
+          <input 
+            type="text" 
+            onChange={this.update("email")} 
+            value={this.state.email}
+            placeholder="Email" />
+
+            // ...
+            
+        </form>
+    )
+            
+  }
+
+}
+```
 
 ### Registering username
 
@@ -60,7 +132,7 @@ class RegisterForm extends React.Component {
       const validInput = /^[a-z0-9_]*$/.test(value);
       const checkingName = (validInput && value.length > 3);
 
-      // update state, then call call handleUsername
+      // update state, then handleUsername
       this.setState({
         user: { ...this.state.user, [field]: value },
         checkingName,
