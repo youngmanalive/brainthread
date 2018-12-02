@@ -1,4 +1,4 @@
-import { SET_CURRENT_USER, CHECK_USERNAME } from "../util/user_api_util";
+import { SET_CURRENT_USER, CHECK_USERNAME } from "../actions/session_actions";
 
 const _nullUser = Object.freeze({ id: null, username: null, email: null });
 
@@ -14,7 +14,7 @@ const sessionReducer = (state = _nullUser, action) => {
     case CHECK_USERNAME:
       return Object.assign(
         {}, state, { username: action.payload.username }
-        );
+      );
     default:
       return state;
   }

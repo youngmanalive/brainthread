@@ -1,13 +1,13 @@
 import {
-  RECEIVE_USER_ERRORS,
+  RECEIVE_SESSION_ERRORS,
   SET_CURRENT_USER
-} from "../util/user_api_util";
+} from "../actions/session_actions";
 import { CLEAR_ERRORS } from "../actions/error_actions";
 
 const sessionErrorsReducer = (state = {}, action) => {
   Object.freeze(state);
   switch (action.type) {
-    case RECEIVE_USER_ERRORS:
+    case RECEIVE_SESSION_ERRORS:
       return action.payload;
     case SET_CURRENT_USER:
       return {};

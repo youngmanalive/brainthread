@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
 import RegisterForm from "./register_form";
-import { registerUser, checkUsername } from "../../util/user_api_util";
+import { checkUsername, registerUser } from "../../actions/session_actions";
 import { clearErrors } from "../../actions/error_actions";
 
 const mapStateToProps = state => ({

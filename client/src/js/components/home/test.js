@@ -40,7 +40,7 @@ class Test extends React.Component {
         </h1>
         <p>
           Clicking <button 
-                      onClick={() => this.props.getCurrentUser()}
+                      onClick={() => getCurrentUser()}
                       >HERE</button> will
           make an authorized get request.
         </p>
@@ -51,6 +51,5 @@ class Test extends React.Component {
 }
 
 const msp = state => ({ username: state.session.username });
-const mdp = dispatch => ({ getCurrentUser: () => dispatch(getCurrentUser())});
 
-export default connect(msp, mdp)(Test);
+export default connect(msp)(Test);

@@ -1,7 +1,7 @@
 import { connect } from "react-redux";
 
 import LoginForm from "./login_form";
-import { loginUser } from "../../util/user_api_util";
+import { loginUser } from "../../actions/session_actions";
 import { clearErrors } from "../../actions/error_actions";
 
 const mapStateToProps = state => ({

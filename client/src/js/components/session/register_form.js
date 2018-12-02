@@ -74,8 +74,6 @@ class RegisterForm extends React.Component {
         .every(value => value)
     );
 
-    console.log(submitDisabled);
-
     return (
       <>
         <h2>Almost done.</h2>
@@ -162,14 +160,12 @@ class RegisterForm extends React.Component {
   handleUsername() {
     if (this.state.checkingName && this.state.validInput) {
       this.typingTimeout = setTimeout(() => {
-        new Promise(() => this.props.checkUsername(this.state.user.username))
-          .then(setTimeout(() => (
-            this.setState({
-              checkingName: false,
-              validInput: /^[a-z0-9_]*$/.test(this.state.user.username)
-            })
-          ), 300));
-      }, 700);
+        this.props.checkUsername(this.state.user.username)
+          .then(() => this.setState({
+            checkingName: false,
+            validInput: /^[a-z0-9_]*$/.test(this.state.user.username)
+          }));
+      }, 500);
     }
   }
 
