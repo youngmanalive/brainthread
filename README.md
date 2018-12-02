@@ -26,6 +26,8 @@ Frontend bootstrapped with `create-react-app`.
 ---
 
 ## Functionality, etc.
+- [Protected Routes](#protected-routes-and-redirection)
+- [Registering Username](#registering-username)
 
 ### Protected Routes and Redirection
 
@@ -100,10 +102,10 @@ class LoginForm extends Component {
 }
 ```
 
-### Registering username
+### Registering Username
 
-Waits for visitor to stop typing, then queries db for existing username.
-Also checks for valid input at any on change event.
+Check for valid input at any on change event.
+Wait for visitor to stop typing, then query db for existing username.
 
 ![image](docs/register_username.gif)
 
