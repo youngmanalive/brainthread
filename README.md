@@ -50,7 +50,8 @@ const Protected = ({ component: Component, path, loggedIn, exact }) => (
 
 const handleRedirect = nextPath => ({
   pathname: "/login",
-  state: {
+  
+  state: {    // send message and attmepted path with redirect
     message: "* You must be logged in to do that. Please sign in.",
     nextPath
   }
@@ -69,16 +70,18 @@ class LoginForm extends Component {
   render() {
     const { loggedIn, location: { state } } = this.props;
 
+    // Once logged in, redirect to original path.
+    // Redirect to /home if state was not receieved.
     if (loggedIn) {
       const nextPath = !state ? "/home" : state.nextPath;
       return <Redirect to={nextPath} />;
     }
 
+    // render message if redirected
     const Redirected = () => {
       const { state } = this.props.location;
-      return !state ? null :
-        <h3>{state.message}</h3>;
-    }
+      return !state ? null : <h3>{state.message}</h3>;
+    };
 
     return (
       <form onSubmit={this.handleSubmit}>
@@ -95,10 +98,8 @@ class LoginForm extends Component {
         // ...
           
       </form>
-    )
-            
+    )     
   }
-
 }
 ```
 
