@@ -25,6 +25,16 @@
   margin: 1rem auto;
   padding: .8rem;
   width: 20rem;
+  transition: all .3s;
+}
+
+.field:focus {
+  border: 1px solid #8eb4e6;
+  transform: scale(1.02);
+}
+
+.hasError {
+  border: 1px solid red;
 }
 
 input[type=submit].submitButton {
@@ -37,7 +47,11 @@ input[type=submit].submitButton {
   background: #91cdff;
 
   &:hover {
-    background: #afdbff
+    background: #afdbff;
+  }
+
+  &:disabled {
+    background: #e0e0e0;
   }
 }
 
