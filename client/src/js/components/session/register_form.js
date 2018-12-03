@@ -1,5 +1,6 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
+import Loading from "../loading";
 import styles from "../../../css/register.module.scss";
 
 class RegisterForm extends React.Component {
@@ -45,7 +46,7 @@ class RegisterForm extends React.Component {
       <>
         <h2 className={styles.usernameHeader}>Create your username</h2>
         <input
-          type="text"
+          type="text" autoFocus
           className={styles.field}
           onChange={this.handleUpdate('username')}
           value={this.state.user.username}
@@ -67,11 +68,16 @@ class RegisterForm extends React.Component {
   }
 
   registerUserInfo() {
-    const submitDisabled = !(
-      Object.values(this.state.user)
-        .filter((value, i) => i !== 2)
-        .every(value => value)
-    );
+    const submitDisabled = !Object.values(this.state.user).every(value => value);
+    const { errors } = this.props;
+
+    const style = label => errors[label]
+      ? `${styles.field} ${styles.hasError}`
+      : `${styles.field}`;
+
+    const Error = ({ label }) => errors[label]
+      ? <span className={styles.errorMessage}>* {errors[label]}</span>
+      : null;
 
     return (
       <>
@@ -81,40 +87,47 @@ class RegisterForm extends React.Component {
         </h2>
         <form onSubmit={this.handleSubmit}>
           <input
-            type="text" required
-            className={styles.field}
-            onChange={this.handleUpdate("firstName")} 
+            type="text"
+            className={style("firstName")}
+            onChange={this.handleUpdate("firstName")}
             value={this.state.user.firstName}
             placeholder="First Name" />
+          <Error label="firstName" />
           <input
-            type="text" required
-            className={styles.field}
-            onChange={this.handleUpdate("lastName")} 
+            type="text"
+            className={style("lastName")}
+            onChange={this.handleUpdate("lastName")}
             value={this.state.user.lastName}
             placeholder="Last Name" />
+          <Error label="lastName" />
           <input
-            type="email" required
-            className={styles.field}
+            type="email"
+            className={style("email")}
             onChange={this.handleUpdate("email")} 
             value={this.state.user.email}
             placeholder="Email" />
+          <Error label="email" />
           <input
-            type="password" required
-            className={styles.field}
+            type="password"
+            className={style("password")}
             onChange={this.handleUpdate("password")} 
             value={this.state.user.password}
             placeholder="Password" />
+          <Error label="password" />
           <input
-            type="password" required
-            className={styles.field}
+            type="password"
+            className={style("password2")}
             onChange={this.handleUpdate("password2")} 
             value={this.state.user.password2}
             placeholder="Confirm Password" />
-          <input
-            type="submit" required
-            className={styles.submitButton}
-            value="Register"
-            disabled={submitDisabled} />
+          <Error label="password2" />
+          <div>
+            <input
+              type="submit"
+              className={styles.submitButton}
+              value="Register"
+              disabled={submitDisabled} />
+          </div>
         </form>
       </>
     );
@@ -168,12 +181,12 @@ class RegisterForm extends React.Component {
   handleSubmit(e) {
     e.preventDefault();
     const user = Object.assign({}, this.state.user);
+    this.props.clearErrors();
     this.setState({ loading: true }, () => this.props.register(user));
   }
 
   render() {
     if (this.props.loggedIn) return <Redirect to="/home" />;
-    if (this.state.loading) return <h1>Loading...</h1>;
 
     const form = this.state.next
       ? (this.registerUserInfo())
@@ -187,11 +200,14 @@ class RegisterForm extends React.Component {
       : <Link to="/" className={styles.goBack}>&#8592; Back</Link>;
   
     return (
-      <div className={styles.container}>
-        <BackButton />
-        <h1 className={styles.header}>Sign Up</h1>
-        {form}
-      </div>
+      <>
+        {this.state.loading ? <Loading /> : null}
+        <div className={styles.container}>
+          <BackButton />
+          <h1 className={styles.header}>Sign Up</h1>
+          {form}
+        </div>
+      </>
     );
   }
 }

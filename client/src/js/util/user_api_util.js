@@ -24,17 +24,17 @@ export const createUser = user =>
 
 // LOGIN USER
 export const createSession = credentials =>
-    axios.post("/api/users/login", credentials)
-      .then(res => {
-        const { token } = res.data;
-        localStorage.setItem("jwtToken", token);
-        setAuthToken(token);
-        const decoded = jwt_decode(token);
-        return decoded;
-      })
-      .catch( err => {
-        throw err.response.data;
-      });
+  axios.post("/api/users/login", credentials)
+    .then(res => {
+      const { token } = res.data;
+      localStorage.setItem("jwtToken", token);
+      setAuthToken(token);
+      const decoded = jwt_decode(token);
+      return decoded;
+    })
+    .catch( err => {
+      throw err.response.data;
+    });
 
 
 // LOGOUT USER

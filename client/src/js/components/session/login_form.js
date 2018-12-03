@@ -62,6 +62,14 @@ class LoginForm extends React.Component {
         <h3 className={styles.redirected}>{state.message}</h3>;
     }
 
+    const style = label => this.props.errors[label]
+      ? `${styles.field} ${styles.hasError}`
+      : styles.field;
+
+    const buttonDisabled = !(
+      this.state.email.length && this.state.password.length
+    );
+
     return (
       <>
         {this.state.loading ? <Loading /> : null}
@@ -71,20 +79,21 @@ class LoginForm extends React.Component {
             <h1 className={styles.header}>Login</h1>
             <Redirected />
             <input 
-              type="text" 
-              className={styles.field}
-              onChange={this.update("email")} 
+              type="text"
+              className={style("email")}
+              onChange={this.update("email")}
               value={this.state.email}
               placeholder="Email" />
             <input
               type="password" 
-              className={styles.field}
+              className={style("email")}
               onChange={this.update("password")} 
               value={this.state.password}
               placeholder="Password" />
             <input
               type="submit"
               className={styles.submitButton}
+              disabled={buttonDisabled}
               value="Submit" />
           </form>
           <span className={styles.footer}>
