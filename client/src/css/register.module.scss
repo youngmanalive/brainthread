@@ -22,7 +22,13 @@
 }
 
 .hasError, .hasError:focus {
-  border: 1px solid red;
+  border: 1px solid #ff0000;
+  margin-bottom: 0;
+}
+
+.errorMessage {
+  font-size: .8rem;
+  color: #ff0000;
 }
 
 // Username
@@ -58,10 +64,6 @@ input[type=submit].submitButton {
   &:hover {
     background: #afdbff
   }
-}
-
-.passwordField {
-  letter-spacing: 1rem;
 }
 
 .username {

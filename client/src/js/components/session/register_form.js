@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, Redirect } from "react-router-dom";
 import Loading from "../loading";
+import SignUpInput from "./signup_input";
 import styles from "../../../css/register.module.scss";
 
 class RegisterForm extends React.Component {
@@ -23,6 +24,7 @@ class RegisterForm extends React.Component {
 
     this.typingTimeout = null;
     this.handleSubmit = this.handleSubmit.bind(this);
+    this.handleUpdate = this.handleUpdate.bind(this);
   }
 
   componentDidMount() {
@@ -35,6 +37,7 @@ class RegisterForm extends React.Component {
     }
   }
 
+  // Page 1, username creation
   registerUsername() {
     const buttonDisabled = (this.state.checkingName) || !(
       this.props.validUsername &&
@@ -67,60 +70,54 @@ class RegisterForm extends React.Component {
     );
   }
 
+  // Page 2, user info and submit
   registerUserInfo() {
     const submitDisabled = !Object.values(this.state.user).every(value => value);
     const { errors } = this.props;
-
-    const style = label => errors[label]
-      ? `${styles.field} ${styles.hasError}`
-      : `${styles.field}`;
-
-    const Error = ({ label }) => errors[label]
-      ? <span className={styles.errorMessage}>* {errors[label]}</span>
-      : null;
+    const { user } = this.state;
 
     return (
       <>
         <h2>Almost done.</h2>
         <h2 className={styles.usernameHeader}>
-          Your username: <span className={styles.username}>{this.state.user.username}</span>
+          Your username: <span className={styles.username}>{user.username}</span>
         </h2>
         <form onSubmit={this.handleSubmit}>
-          <input
+          <SignUpInput
             type="text"
-            className={style("firstName")}
-            onChange={this.handleUpdate("firstName")}
-            value={this.state.user.firstName}
-            placeholder="First Name" />
-          <Error label="firstName" />
-          <input
+            name="firstName"
+            update={this.handleUpdate}
+            value={user.firstName}
+            placeholder="First Name"
+            error={errors.firstName} />
+          <SignUpInput
             type="text"
-            className={style("lastName")}
-            onChange={this.handleUpdate("lastName")}
-            value={this.state.user.lastName}
-            placeholder="Last Name" />
-          <Error label="lastName" />
-          <input
+            name="lastName"
+            update={this.handleUpdate}
+            value={user.lastName}
+            placeholder="Last Name"
+            error={errors.lastName} />
+          <SignUpInput
             type="email"
-            className={style("email")}
-            onChange={this.handleUpdate("email")} 
-            value={this.state.user.email}
-            placeholder="Email" />
-          <Error label="email" />
-          <input
+            name="email"
+            update={this.handleUpdate}
+            value={user.email}
+            placeholder="Email"
+            error={errors.email} />
+          <SignUpInput
             type="password"
-            className={style("password")}
-            onChange={this.handleUpdate("password")} 
-            value={this.state.user.password}
-            placeholder="Password" />
-          <Error label="password" />
-          <input
+            name="password"
+            update={this.handleUpdate}
+            value={user.password}
+            placeholder="Password"
+            error={errors.password} />
+          <SignUpInput
             type="password"
-            className={style("password2")}
-            onChange={this.handleUpdate("password2")} 
-            value={this.state.user.password2}
-            placeholder="Confirm Password" />
-          <Error label="password2" />
+            name="password2"
+            update={this.handleUpdate}
+            value={user.password2}
+            placeholder="Confirm Password"
+            error={errors.password2} />
           <div>
             <input
               type="submit"
