@@ -1,35 +1,48 @@
-## BrainThread
+# BrainThread
 
 Initial stages. Stay tuned.
 
-MERN stack, single page app.
+MERN stack, single page app. Really just a big sandbox for me to play around in because I'm addicted to JavaScript and there's nothing you can do about it. 
 
-## Technologies, etc:
+# Technologies, etc.
 
-- Node
-- MongoDB (hosted on mLab)
-- Mongoose
-- Express
-- React
-- Redux
-- Axios
-- Passport
-- Bcrypt
-- Sass
-- Webpack
-- Babel
+- Server
+  - Node
+  - MongoDB (hosted on [mLab](https://mlab.com/))
+  - [mongoose](https://www.npmjs.com/package/mongoose)
+  - [express](https://www.npmjs.com/package/express)
+  - [body-parser](https://www.npmjs.com/package/body-parser)
+  - [passport](https://www.npmjs.com/package/passport)
+  - [passport-jwt](https://www.npmjs.com/package/passport-jwt)
+  - [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
+  - [bcrypt](https://www.npmjs.com/package/bcryptjs)
+  - [validator](https://www.npmjs.com/package/validator) (string validation)
 
-Frontend bootstrapped with `create-react-app`.
+- Client
+  - React (bootstrapped with [create-react-app](https://www.npmjs.com/package/create-react-app))
+  - [redux](https://www.npmjs.com/package/react-redux)
+  - [axios](https://www.npmjs.com/package/axios)
+  - [react-idle-timer](https://www.npmjs.com/package/react-idle-timer) (auto logout)
+  - [react-router-dom](https://github.com/ReactTraining/react-router/tree/master/packages/react-router-dom)
+  - [redux-thunk](https://www.npmjs.com/package/redux-thunk)
+  - [jwt-decode](https://www.npmjs.com/package/jwt-decode)
+  - CSS Modules (SCSS)
+  - [node-sass](https://www.npmjs.com/package/node-sass)
+  - [Font Awesome](https://fontawesome.com/)
 
-
+- Dev, etc
+  - [nodemon](https://www.npmjs.com/package/nodemon)
+  - [concurrently](https://www.npmjs.com/package/concurrently)
+  - JSON Web Tokens (Bearer)
+  - RESTful implementations
 
 ---
 
-## Functionality, etc.
+# Functionality, UI, etc.
 - [Protected Routes](#protected-routes-and-redirection)
 - [Registering Username](#registering-username)
 
-### Protected Routes and Redirection
+## Protected Routes and Redirection
 
 ![image](docs/redirection.png)
 
@@ -102,8 +115,8 @@ class LoginForm extends Component {
   }
 }
 ```
-
-### Registering Username
+---
+## Registering Username
 
 Check for valid input at any on change event.
 Wait for visitor to stop typing, then query db for existing username.
