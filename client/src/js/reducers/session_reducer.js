@@ -8,8 +8,7 @@ const sessionReducer = (state = _nullUser, action) => {
     case SET_CURRENT_USER:
       return {
         id: action.payload.id || null,
-        username: action.payload.username || null,
-        email: action.payload.email || null
+        username: action.payload.username || null
       };
     case CHECK_USERNAME:
       return Object.assign(
