@@ -7,7 +7,7 @@ class LoginForm extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: "",
+      name: "",
       password: "",
       loading: false
     }
@@ -31,8 +31,8 @@ class LoginForm extends React.Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.state;
-    const user = Object.assign({}, { email, password });
+    const { name, password } = this.state;
+    const user = Object.assign({}, { name, password });
 
     new Promise(resolve => resolve(this.props.clearErrors()))
       .then(() => (
@@ -67,7 +67,7 @@ class LoginForm extends React.Component {
       : styles.field;
 
     const buttonDisabled = !(
-      this.state.email.length && this.state.password.length
+      this.state.name.length && this.state.password.length
     );
 
     return (
@@ -80,13 +80,13 @@ class LoginForm extends React.Component {
             <Redirected />
             <input 
               type="text"
-              className={style("email")}
-              onChange={this.update("email")}
-              value={this.state.email}
-              placeholder="Email" />
+              className={style("name")}
+              onChange={this.update("name")}
+              value={this.state.name}
+              placeholder="Email or Username" />
             <input
               type="password" 
-              className={style("email")}
+              className={style("password")}
               onChange={this.update("password")} 
               value={this.state.password}
               placeholder="Password" />

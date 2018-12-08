@@ -37,8 +37,12 @@ router.post("/register", (req, res) => {
         newUser.password = hash;
         newUser.save()
           .then(user => {
-            const payload = { id: user.id, username: user.username, email: user.email };
-            jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
+            const payload = {
+              id: user.id,
+              username: user.username,
+              clientExp: (Date.now() / 1000 + 2700)
+            };
+            jwt.sign(payload, keys.secret, { expiresIn: 4500 }, (err, token) => {
               res.json({success: true, token: "Bearer " + token});
             });
           })
@@ -51,18 +55,26 @@ router.post("/register", (req, res) => {
 // LOGIN
 router.post("/login", (req, res) => {
   const { errors, isValid } = validateLoginInput(req.body);
+
   if (!isValid) return res.status(400).json(errors);
 
-  const email = req.body.email;
+  const name = req.body.name;
   const password = req.body.password;
 
-  User.findOne({ email }).then(user => {
-    if (!user) return res.status(404).json({ email: "Email not found" });
+  const type = (/.*@.*/.test(name)) ? "email" : "username";
+
+  User.findOne({ [type]: name }).then(user => {
+    if (!user) return res.status(404).json({ name: "User not found" });
 
     bcrypt.compare(password, user.password).then(isMatch => {
       if (isMatch) {
-        const payload = { id: user.id, username: user.username, email: user.email };
-        jwt.sign(payload, keys.secret, { expiresIn: 3600 }, (err, token) => {
+        const payload = {
+          id: user.id,
+          username: user.username,
+          clientExp: (Date.now() / 1000 + 2700)
+        };
+
+        jwt.sign(payload, keys.secret, { expiresIn: 4500 }, (err, token) => {
           res.json({success: true, token: "Bearer " + token});
         });
       } else {
@@ -77,7 +89,7 @@ router.get("/current",
   passport.authenticate("jwt", { session: false }), (req, res) => {
     res.json({
       id: req.user.id,
-      user: req.user.username,
+      token: req.user.token,
     });
   }
 );
